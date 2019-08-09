@@ -16,6 +16,7 @@ app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'common', {
 }))
 
 // do cors stuff
+app.use(cors())  // if you have a client_origin url from your config file then pass it in inside of cors ex. cors({orign: CLIENT_ORIGIN})
 
 // load your public assets
 app.use(express.static('public'))
@@ -29,6 +30,22 @@ app.get('/', (req, res, next) => {
 })
 
 //error handler
+app.use((req, res, next) => {
+    const err = new Error('Not Found')
+    err.status = 404
+    next(err)
+})
+
+// first error handler
+app.use((err, req, res, next) => {
+    if (err.status) {
+        const errBody = Object.assign({}, err, { message: err.message })
+        res.status(err.status).json(errBody)
+      } else {
+        res.status(500).json({ message: 'Internal Server Error' })
+        console.log(err.name === 'FakeError' ? '' : err)
+      }
+})
 
 
 // add db listener
