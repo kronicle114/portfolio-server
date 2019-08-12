@@ -5,7 +5,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 
 // get our client url, get our database configs/url, and your port
-const { PORT } = require('./config')
+const { PORT, DATABASE_URL } = require('./config')
 
 // build an express app
 const app = express()
@@ -49,8 +49,19 @@ app.use((err, req, res, next) => {
 
 
 // add db listener
-app.listen(PORT, function () {
-    console.info(`listening on PORT ${this.address().port}`)
-}).on('error', err => console.error(err))
+if(require.main === module){ // prevents server from automatically running when we run tests
+    // Connect to DB and Listen for incoming connections
+    mongoose.connect(DATABASE_URL, { useNewUrlParser: true, useCreateIndex: true
+    }).catch( err => {
+        console.error('Mongoose failed to connect')
+        console.error(err)
+    })
+
+    // run server
+    app.listen(PORT, function () {
+        console.info(`listening on PORT ${this.address().port}`)
+    }).on('error', err => console.error(err))
+
+}
 
 // export app for testing
