@@ -16,7 +16,7 @@ app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'common', {
 }))
 
 // do cors stuff
-app.use(cors())  // if you have a client_origin url from your config file then pass it in inside of cors ex. cors({orign: CLIENT_ORIGIN})
+// app.use(cors())  // if you have a client_origin url from your config file then pass it in inside of cors ex. cors({orign: CLIENT_ORIGIN})
 
 // load your public assets
 app.use(express.static('public'))
