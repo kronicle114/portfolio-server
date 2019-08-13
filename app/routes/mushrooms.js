@@ -48,3 +48,4 @@ router.post('/', jsonParser, (req, res, next) => {
 
 /* ========== DELETE ========== */
 
+module.exports = router

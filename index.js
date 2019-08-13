@@ -1,11 +1,14 @@
 const express = require('express')
 const morgan = require('morgan')
 // const cors = require('cors')  // we will use this later for when we connect the frontend
-// const mongoose = require('mongoose') // we will use this later when we connect to the db
+const mongoose = require('mongoose') // we will use this later when we connect to the db
 const bodyParser = require('body-parser')
 
 // get our client url, get our database configs/url, and your port
 const { PORT, DATABASE_URL } = require('./config')
+
+// require routers
+const mushroomsRouter = require('./app/routes/mushrooms')
 
 // build an express app
 const app = express()
@@ -28,6 +31,7 @@ app.use(bodyParser.json())
 app.get('/', (req, res, next) => {
     return res.json('hello world')
 })
+app.use('/api/mushrooms', mushroomsRouter)
 
 //error handler
 app.use((req, res, next) => {
