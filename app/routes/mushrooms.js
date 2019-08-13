@@ -34,7 +34,7 @@ router.post('/', jsonParser, (req, res, next) => {
         return next(err)
     }
 
-    Mushrooom.create({name, color, age})
+    Mushroom.create({name, color, age})
         .then(data => {
             return res.location(`${req.originalUrl}/${data.id}`)
             .status(201).json(data)

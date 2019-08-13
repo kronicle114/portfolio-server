@@ -19,7 +19,11 @@ const MushroomSchema = new mongoose.Schema({
 MushroomSchema.set('timestamps', true)
 
 MushroomSchema.set('toJSON', {
-    virtuals: true
+    virtuals: true,
+    transform: (doc, result) => {
+        delete result._id
+        delete result.__v
+    }
 })
 
 // export the model
