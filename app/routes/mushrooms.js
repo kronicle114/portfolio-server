@@ -9,9 +9,10 @@ const jsonParser = bodyParser.json()
 
 /* ========== GET ALL  ========== */
 router.get('/', jsonParser, (req,res, next) => {
+    //probably add filter later
+
     Mushroom.find()
-        .exec()
-        .then(doc => {
+        .then(docs => {
             return res.status(200).json(docs)
         })
         .catch(err => next(err))
