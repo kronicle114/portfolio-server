@@ -1,7 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const Mushroom = require('../models/mushroom')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
 // create a router via express
 const router = express.Router()
@@ -19,11 +19,18 @@ router.get('/', jsonParser, (req,res, next) => {
 })
 
 /* ========== GET ONE BY ID ========== */
+router.get('/:id', (req, res, next) => {
+    let {id} = req.params
 
+    // validate that id & error handler
+
+    //find the document on mongodb & return the info back
+
+})
 
 /* ========== POST ========== */
 router.post('/', jsonParser, (req, res, next) => {
-    let {name, color, age} = req.body;
+    let {name, color, age} = req.body
 
     if(!name || name === '' || !age || age === null){
         const err = {
@@ -45,7 +52,20 @@ router.post('/', jsonParser, (req, res, next) => {
 )
 
 /* ========== PUT ========== */
+router.put('/:id', (req, res, next) => {
+    const mushroom_id = req.params.id
+    let {name, color, age} = req.body
+    
+    // error handler: make sure that user input is the valid data type
 
+    // update
+    let data = {name, color, age}
+
+    //find the document on mongodb and then change it 
+    Mushroom.findByIdAndUpdate(mushroom_id, data)    
+
+
+})
 
 /* ========== DELETE ========== */
 
