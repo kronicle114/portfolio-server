@@ -11,8 +11,12 @@ const router = express.Router()
 const localAuth = passport.authenticate('local', { session: false, failWithError: true })
 
 router.post('/login', localAuth, (req, res) => {
+  console.log('running login post')
+  console.log('req', req)
   const authToken = createAuthToken(req.user)
   res.json({ authToken })
+
+  console.log(' res.json', res)
 });
 
 const jwtAuth = passport.authenticate('jwt', { session: false, failWithError: true })
