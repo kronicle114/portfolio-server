@@ -2,7 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const passport = require('passport');
+const passport = require('passport')
 // const cors = require('cors')  // we will use this later for when we connect the frontend
 
 // get our client url, get our database configs/url, and your port
@@ -12,6 +12,8 @@ const jwtStrategy = require('./app/passport/jwt')
 
 // require routers
 // const mushroomsRouter = require('./app/routes/mushrooms')
+const notesRouter = require('./app/routes/notes')
+const foldersRouter = require('./app/routes/folders')
 const usersRouter = require('./app/routes/users')
 const authRouter = require('./app/routes/auth')
 
@@ -29,13 +31,16 @@ app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'common', {
 // load your public assets
 app.use(express.static('public'))
 
+// Parse request body
+app.use(express.json());
+
 // body parser
 app.use(bodyParser.json())
 
-// public api endpoints
-// app.get('/', (req, res, next) => {
-//     return res.json('hello world')
-// })
+/* public api endpoints */
+app.get('/', (req, res, next) => {
+    return res.status(200).json({'message': 'hello world'})
+})
 // app.use('/api/mushrooms', mushroomsRouter)
 
 // utilize strategies
@@ -49,6 +54,8 @@ const jwtAuth = passport.authenticate('jwt', {
 
 
 // mount routers
+app.use('/api/notes', jwtAuth, notesRouter)
+app.use('/api/folders', jwtAuth, foldersRouter)
 app.use('/api/users', usersRouter)
 app.use('/api', authRouter)
 

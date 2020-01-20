@@ -1,8 +1,10 @@
 const express = require('express')
 const User = require('../models/user')
 
+// Endpoint `/api/users`
 const router = express.Router()
 
+/* ====== create a user ====== */
 router.post('/', (req, res, next) => {
 
     /***** Never trust users - validate input *****/
@@ -18,7 +20,7 @@ router.post('/', (req, res, next) => {
   const stringFields = ['username', 'password', 'fullname']
   const nonStringField = stringFields.find(
     field => field in req.body && typeof req.body[field] !== 'string'
-  );
+  )
 
   if (nonStringField) {
     const err = new Error(`Field: '${nonStringField}' must be type String`)
@@ -47,24 +49,24 @@ router.post('/', (req, res, next) => {
   const tooSmallField = Object.keys(sizedFields).find(
     field => 'min' in sizedFields[field] &&
       req.body[field].trim().length < sizedFields[field].min
-  );
+  )
   if (tooSmallField) {
-    const min = sizedFields[tooSmallField].min;
-    const err = new Error(`Field: '${tooSmallField}' must be at least ${min} characters long`);
-    err.status = 422;
-    return next(err);
+    const min = sizedFields[tooSmallField].min
+    const err = new Error(`Field: '${tooSmallField}' must be at least ${min} characters long`)
+    err.status = 422
+    return next(err)
   }
 
   const tooLargeField = Object.keys(sizedFields).find(
     field => 'max' in sizedFields[field] &&
       req.body[field].trim().length > sizedFields[field].max
-  );
+  )
 
   if (tooLargeField) {
-    const max = sizedFields[tooLargeField].max;
-    const err = new Error(`Field: '${tooLargeField}' must be at most ${max} characters long`);
-    err.status = 422;
-    return next(err);
+    const max = sizedFields[tooLargeField].max
+    const err = new Error(`Field: '${tooLargeField}' must be at most ${max} characters long`)
+    err.status = 422
+    return next(err)
   }
 
   let { username, password, fullname = '' } = req.body
