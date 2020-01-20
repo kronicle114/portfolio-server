@@ -11,7 +11,7 @@ const localStrategy = require('./app/passport/local')
 const jwtStrategy = require('./app/passport/jwt')
 
 // require routers
-const mushroomsRouter = require('./app/routes/mushrooms')
+// const mushroomsRouter = require('./app/routes/mushrooms')
 const usersRouter = require('./app/routes/users')
 const authRouter = require('./app/routes/auth')
 
@@ -33,10 +33,10 @@ app.use(express.static('public'))
 app.use(bodyParser.json())
 
 // public api endpoints
-app.get('/', (req, res, next) => {
-    return res.json('hello world')
-})
-app.use('/api/mushrooms', mushroomsRouter)
+// app.get('/', (req, res, next) => {
+//     return res.json('hello world')
+// })
+// app.use('/api/mushrooms', mushroomsRouter)
 
 // utilize strategies
 passport.use(localStrategy)
